@@ -10,6 +10,7 @@ public class Usuario {
     private String nombre;
     private String email;
     ArrayList<Contacto> contactos = new ArrayList<Contacto>();
+    private BandejaDeEntrada bandejaDeEntrada;
     
 
     public Usuario(String usuario, String password, String nombre, String email) {
@@ -94,9 +95,19 @@ public class Usuario {
 
     public void mostrarContactos() {
         for (Contacto contacto : contactos) {
-            System.out.println(contacto);
+            System.out.println(contacto.toString());
         }
     }
+
+    public ArrayList<Contacto> getContactos(){
+        return contactos;
+    }
+
+    
+
+
+
+
 
     @Override
     public String toString() {

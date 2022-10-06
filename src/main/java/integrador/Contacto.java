@@ -26,6 +26,11 @@ public class Contacto {
         this.email = email;
     }
 
+    public void vincularUsuario(Usuario usuario) {
+        usuario.getContactos().add(this);
+    }
+
+
     @Override
     public String toString() {
         return "Contacto{" + "nombre=" + nombre + ", email=" + email + '}';
