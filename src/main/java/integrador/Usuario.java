@@ -1,5 +1,6 @@
 package integrador;
 import java.util.*;
+import java.util.function.Predicate;
 
 public class Usuario {
     
@@ -78,23 +79,17 @@ public class Usuario {
         Scanner sc = new Scanner(System.in);
         System.out.println("Ingrese el nombre");
         String nombre = sc.nextLine();
-        System.out.println("Ingrese el apellido");
-        String apellido = sc.nextLine();
         System.out.println("Ingrese el email");
         String email = sc.nextLine();
-        Contacto contacto = new Contacto(nombre, apellido, email);
+        Contacto contacto = new Contacto(nombre, email);
         contactos.add(contacto);
         sc.close();
         System.out.println("Contacto creado");
     }
 
     public Contacto buscarContacto(String email) {
-        for (Contacto contacto : contactos) {
-            if (contacto.getEmail().equals(email)) {
-                return contacto;
-            }
-        }
-        return null;
+        Predicate<Contacto> p = c -> c.getEmail().equals(email);
+        return contactos.stream().filter(p).findFirst().orElse(null);
     }
 
     public void mostrarContactos() {
