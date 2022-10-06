@@ -46,5 +46,12 @@ public class Usuario {
     public void setEmail(String email) {
         this.email = email;
     }
+
+    public void crearCorreo() {
+
+        //Correo correo = new Correo(contenido, asunto, this, para);
+        //System.out.println(correo);
+    }
+    
     
 }
