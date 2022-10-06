@@ -2,12 +2,11 @@ package integrador;
 
 public class Contacto {
     private String nombre;
-    private String apellido;
     private String email;
 
-    public Contacto(String nombre, String apellido, String email) {
+    public Contacto(String nombre, String email) {
         setNombre(nombre);
-        setApellido(apellido);
+        
         setEmail(email);
     }
 
@@ -17,14 +16,6 @@ public class Contacto {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
-    }
-
-    public String getApellido() {
-        return apellido;
-    }
-
-    public void setApellido(String apellido) {
-        this.apellido = apellido;
     }
 
     public String getEmail() {
@@ -37,7 +28,7 @@ public class Contacto {
 
     @Override
     public String toString() {
-        return "Contacto{" + "nombre=" + nombre + ", apellido=" + apellido + ", email=" + email + '}';
+        return "Contacto{" + "nombre=" + nombre + ", email=" + email + '}';
     }
     
 }

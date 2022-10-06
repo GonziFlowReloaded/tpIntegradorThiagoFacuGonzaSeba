@@ -84,6 +84,7 @@ public class Usuario {
         String email = sc.nextLine();
         Contacto contacto = new Contacto(nombre, apellido, email);
         contactos.add(contacto);
+        sc.close();
         System.out.println("Contacto creado");
     }
 
@@ -107,6 +108,6 @@ public class Usuario {
         return "Usuario{" + "usuario=" + usuario + ", password=" + password + ", nombre=" + nombre + ", email=" + email + ", contactos=" + contactos + '}';
     }
     
-    
+
     
 }
