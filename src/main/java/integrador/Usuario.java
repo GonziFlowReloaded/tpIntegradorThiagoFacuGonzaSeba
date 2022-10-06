@@ -54,31 +54,40 @@ public class Usuario {
 
     public void crearCorreo() {
         ArrayList<Contacto> para = new ArrayList<Contacto>();
+        Boolean flag = true;
         //Pedir datos para crear correo
         Scanner sc = new Scanner(System.in);
+
 
         if (contactos.isEmpty()) {
             System.out.println("No tiene contactos");
         } else {
             System.out.println("Ingrese el asunto");
-            String asunto = sc.nextLine();
+            //String asunto = sc.nextLine();
+            String asunto = "asunto";
             System.out.println("Ingrese el contenido");
-            String contenido = sc.nextLine();
-            System.out.println("Ingrese el destinatario");
-            String destinatario = sc.nextLine();
-            Contacto destinatariosAux = buscarContacto(destinatario);
+            //String contenido = sc.nextLine();
+            String contenido = "contenido";
             
-            if (destinatariosAux == null) {
-                System.out.println("No existe el contacto");
-            } else {
-
-                
-
-                para.add(destinatariosAux);
-
-                Correo correo = new Correo(contenido, asunto, this, para);
-                System.out.println("Correo creado");
+            while(flag){
+                System.out.println("Ingrese el destinatario");
+                String destinatario = sc.nextLine();
+                Contacto destinatariosAux = buscarContacto(destinatario);
+                if(destinatariosAux != null){
+                    para.add(destinatariosAux);}
+                else{
+                    System.out.println("No existe el destinatario");
+                }
+                System.out.println("Desea agregar otro destinatario? (s/n)");
+                String respuesta = sc.nextLine();
+                if(respuesta.equals("n")){
+                    flag = false;
+                }
             }
+            sc.close();
+
+            Correo correo = new Correo(contenido, asunto, this, para);
+            System.out.println("Correo creado");
         }   
     }
 
