@@ -9,9 +9,9 @@ public class Correo {
     ArrayList<Contacto> para = new ArrayList<Contacto>();
 
     public Correo(String contenido, String asunto, Usuario remitente, Contacto para) {
-        this.contenido = contenido;
-        this.asunto = asunto;
-        this.remitente = remitente;
+        setContenido(contenido);
+        setAsunto(asunto);
+        setRemitente(remitente);
         this.para.add(para);
 
     }
@@ -41,12 +41,10 @@ public class Correo {
     }
 
     public ArrayList<Contacto> getPara() {
-        return para;
+        return this.para;
     }
 
-    public void setPara(ArrayList<Contacto> para) {
-        this.para = para;
-    }
+    
 
     @Override
     public String toString() {
