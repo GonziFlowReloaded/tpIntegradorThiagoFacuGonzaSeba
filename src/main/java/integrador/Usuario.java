@@ -10,7 +10,7 @@ public class Usuario {
     private String nombre;
     private String email;
     ArrayList<Contacto> contactos = new ArrayList<Contacto>();
-    private BandejaDeEntrada bandejaDeEntrada;
+    
     
 
     public Usuario(String usuario, String password, String nombre, String email) {
@@ -53,6 +53,7 @@ public class Usuario {
     }
 
     public void crearCorreo() {
+        ArrayList<Contacto> para = new ArrayList<Contacto>();
         //Pedir datos para crear correo
         Scanner sc = new Scanner(System.in);
 
@@ -65,10 +66,16 @@ public class Usuario {
             String contenido = sc.nextLine();
             System.out.println("Ingrese el destinatario");
             String destinatario = sc.nextLine();
-            Contacto para = buscarContacto(destinatario);
-            if (para == null) {
+            Contacto destinatariosAux = buscarContacto(destinatario);
+            
+            if (destinatariosAux == null) {
                 System.out.println("No existe el contacto");
             } else {
+
+                
+
+                para.add(destinatariosAux);
+
                 Correo correo = new Correo(contenido, asunto, this, para);
                 System.out.println("Correo creado");
             }
@@ -99,8 +106,12 @@ public class Usuario {
         }
     }
 
-    public ArrayList<Contacto> getContactos(){
+    public ArrayList<Contacto> getContactos() {
         return contactos;
+    }
+    
+    public void agregarContacto(Contacto contacto) {
+        contactos.add(contacto);
     }
 
     

@@ -8,11 +8,11 @@ public class Correo {
     private Usuario remitente;
     ArrayList<Contacto> para = new ArrayList<Contacto>();
 
-    public Correo(String contenido, String asunto, Usuario remitente, Contacto para) {
+    public Correo(String contenido, String asunto, Usuario remitente, ArrayList<Contacto> para) {
         setContenido(contenido);
         setAsunto(asunto);
         setRemitente(remitente);
-        this.para.add(para);
+        setPara(para);
 
     }
 
@@ -42,6 +42,10 @@ public class Correo {
 
     public ArrayList<Contacto> getPara() {
         return para;
+    }
+
+    public void setPara(ArrayList<Contacto> para) {
+        this.para = para;
     }
 
     
