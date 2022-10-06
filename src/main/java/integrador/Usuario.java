@@ -1,4 +1,5 @@
 package integrador;
+import java.util.*;
 
 public class Usuario {
     
@@ -7,6 +8,8 @@ public class Usuario {
     private String password;
     private String nombre;
     private String email;
+    ArrayList<Contacto> contactos = new ArrayList<Contacto>();
+    
 
     public Usuario(String usuario, String password, String nombre, String email) {
         setUsuario(usuario);
@@ -48,10 +51,62 @@ public class Usuario {
     }
 
     public void crearCorreo() {
+        //Pedir datos para crear correo
+        Scanner sc = new Scanner(System.in);
 
-        //Correo correo = new Correo(contenido, asunto, this, para);
-        //System.out.println(correo);
+        if (contactos.isEmpty()) {
+            System.out.println("No tiene contactos");
+        } else {
+            System.out.println("Ingrese el asunto");
+            String asunto = sc.nextLine();
+            System.out.println("Ingrese el contenido");
+            String contenido = sc.nextLine();
+            System.out.println("Ingrese el destinatario");
+            String destinatario = sc.nextLine();
+            Contacto para = buscarContacto(destinatario);
+            if (para == null) {
+                System.out.println("No existe el contacto");
+            } else {
+                Correo correo = new Correo(contenido, asunto, this, para);
+                System.out.println("Correo creado");
+            }
+        }   
     }
+
+    public void crearContacto() {
+        //Pedir datos para crear contacto
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Ingrese el nombre");
+        String nombre = sc.nextLine();
+        System.out.println("Ingrese el apellido");
+        String apellido = sc.nextLine();
+        System.out.println("Ingrese el email");
+        String email = sc.nextLine();
+        Contacto contacto = new Contacto(nombre, apellido, email);
+        contactos.add(contacto);
+        System.out.println("Contacto creado");
+    }
+
+    public Contacto buscarContacto(String email) {
+        for (Contacto contacto : contactos) {
+            if (contacto.getEmail().equals(email)) {
+                return contacto;
+            }
+        }
+        return null;
+    }
+
+    public void mostrarContactos() {
+        for (Contacto contacto : contactos) {
+            System.out.println(contacto);
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "Usuario{" + "usuario=" + usuario + ", password=" + password + ", nombre=" + nombre + ", email=" + email + ", contactos=" + contactos + '}';
+    }
+    
     
     
 }
