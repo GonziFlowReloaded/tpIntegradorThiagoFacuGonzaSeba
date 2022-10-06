@@ -41,7 +41,7 @@ public class Correo {
     }
 
     public ArrayList<Contacto> getPara() {
-        return this.para;
+        return para;
     }
 
     
