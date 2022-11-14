@@ -5,10 +5,10 @@ import java.util.*;
 public class Correo {
     private String contenido;
     private String asunto;
-    private Usuario remitente;
+    private String remitente;
     ArrayList<Contacto> para = new ArrayList<Contacto>();
 
-    public Correo(String contenido, String asunto, Usuario remitente, Contacto para) {
+    public Correo(String contenido, String asunto, String remitente, Contacto para) {
         setContenido(contenido);
         setAsunto(asunto);
         setRemitente(remitente);
@@ -32,11 +32,11 @@ public class Correo {
         this.asunto = asunto;
     }
 
-    public Usuario getRemitente() {
+    public String getRemitente() {
         return remitente;
     }
 
-    public void setRemitente(Usuario remitente) {
+    public void setRemitente(String remitente) {
         this.remitente = remitente;
     }
 

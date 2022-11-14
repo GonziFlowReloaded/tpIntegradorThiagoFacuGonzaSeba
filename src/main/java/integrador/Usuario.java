@@ -51,40 +51,14 @@ public class Usuario {
         this.email = email;
     }
 
-    public void crearCorreo() {
-        //Pedir datos para crear correo
-        Scanner sc = new Scanner(System.in);
+    public void crearCorreo(String contenido, String asunto, String destinatario, Contacto remitente) {
+        Correo correo = new Correo(contenido, asunto, destinatario, remitente);
 
-        if (contactos.isEmpty()) {
-            System.out.println("No tiene contactos");
-        } else {
-            System.out.println("Ingrese el asunto");
-            String asunto = sc.nextLine();
-            System.out.println("Ingrese el contenido");
-            String contenido = sc.nextLine();
-            System.out.println("Ingrese el destinatario");
-            String destinatario = sc.nextLine();
-            Contacto para = buscarContacto(destinatario);
-            if (para == null) {
-                System.out.println("No existe el contacto");
-            } else {
-                Correo correo = new Correo(contenido, asunto, this, para);
-                System.out.println("Correo creado");
-            }
-        }   
     }
 
-    public void crearContacto() {
-        //Pedir datos para crear contacto
-        Scanner sc = new Scanner(System.in);
-        System.out.println("Ingrese el nombre");
-        String nombre = sc.nextLine();
-        System.out.println("Ingrese el email");
-        String email = sc.nextLine();
+    public void crearContacto(String nombre, String email) {
         Contacto contacto = new Contacto(nombre, email);
         contactos.add(contacto);
-        sc.close();
-        System.out.println("Contacto creado");
     }
 
     public Contacto buscarContacto(String email) {
