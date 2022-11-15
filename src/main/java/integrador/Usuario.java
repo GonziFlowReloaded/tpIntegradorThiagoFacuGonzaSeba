@@ -11,6 +11,7 @@ public class Usuario implements InterfaceBusquedaContacto{
     private String email;
     private Correo correo;
     ArrayList<Contacto> contactos = new ArrayList<Contacto>();
+    private Buzon buzon;
     
 
     public Usuario(String usuario, String password, String nombre, String email) {
@@ -65,10 +66,18 @@ public class Usuario implements InterfaceBusquedaContacto{
     public Correo getCorreoActual(){
         return correo;
     }
+
+    public void enviarCorreo(Correo correo){
+        buzon.agregarCorreoEnviado(correo);
+    }
+
+
+
     public ArrayList<Contacto> getContactos() {
         return contactos;
     }
     
+
     
     
     

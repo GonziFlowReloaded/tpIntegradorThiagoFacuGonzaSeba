@@ -28,6 +28,8 @@ public class AppTest {
 
         usuario.crearContacto("Jorgemite", "roberto@mail.com");
         usuario.crearCorreo("Hola, como estas?", "Saludo", usuario.getContactos().get(0));
+
+        
         assertEquals("Hola, como estas?", usuario.getCorreoActual().getContenido());
         assertEquals("Saludo", usuario.getCorreoActual().getAsunto());
         assertEquals("Jorgemite", usuario.getCorreoActual().getPara().get(0).getNombre());

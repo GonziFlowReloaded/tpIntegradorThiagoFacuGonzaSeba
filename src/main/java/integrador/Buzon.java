@@ -5,6 +5,7 @@ import java.util.function.Predicate;
 public class Buzon implements InterfaceBandejaDeEntrada, InterfaceBusquedaCorreo{
     
     private ArrayList<Correo> correos = new ArrayList<Correo>();
+    private ArrayList<Correo> correosEnviados = new ArrayList<Correo>();
 
     public Buzon() {
     }
@@ -12,6 +13,12 @@ public class Buzon implements InterfaceBandejaDeEntrada, InterfaceBusquedaCorreo
     public ArrayList<Correo> getCorreos() {
         return correos;
     }
+    
+    public void agregarCorreoEnviado(Correo correo){
+        correosEnviados.add(correo);
+    }
+    
+    
     @Override
     public void agregarCorreo(Correo correo) {
         correos.add(correo);
