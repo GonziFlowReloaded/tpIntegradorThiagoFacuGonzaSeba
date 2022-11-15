@@ -43,7 +43,9 @@ public class Correo {
     public ArrayList<Contacto> getPara() {
         return this.para;
     }
-
+    public void agregarDestinatario(Contacto destinatario){
+        this.para.add(destinatario);
+    }
     
 
     @Override

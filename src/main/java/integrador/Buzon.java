@@ -24,9 +24,7 @@ public class Buzon implements InterfaceBandejaDeEntrada, InterfaceBusquedaCorreo
     @Override
     public void mostrarCorreos() {
         
-        for (Correo correo : correos) {
-            System.out.println(correo);
-        }
+        
     }
 
     @Override
@@ -42,15 +40,19 @@ public class Buzon implements InterfaceBandejaDeEntrada, InterfaceBusquedaCorreo
     }
 
     @Override
-    public Correo buscarDestinatario(String destinatario) {
-        // TODO Auto-generated method stub
-        return null;
+    public Correo buscarDestinatarioNombre(String destinatario) {
+        Predicate<Correo> filtro = c -> c.getPara().stream().anyMatch(d -> d.getNombre().equals(destinatario));
+        return correos.stream().filter(filtro).findFirst().orElse(null);
     }
-
+    @Override
+    public Correo buscarDestinatarioEmail(String email) {
+        Predicate<Correo> filtro = c -> c.getPara().stream().anyMatch(d -> d.getEmail().equals(email));
+        return correos.stream().filter(filtro).findFirst().orElse(null);
+    }
     @Override
     public Correo buscarContenido(String contenido) {
-        // TODO Auto-generated method stub
-        return null;
+        Predicate<Correo> filtro = c -> c.getContenido().contains(contenido);
+        return correos.stream().filter(filtro).findFirst().orElse(null);
     }
 
 

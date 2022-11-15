@@ -9,6 +9,7 @@ public class Usuario implements InterfaceBusquedaContacto{
     private String password;
     private String nombre;
     private String email;
+    private Correo correo;
     ArrayList<Contacto> contactos = new ArrayList<Contacto>();
     
 
@@ -52,7 +53,7 @@ public class Usuario implements InterfaceBusquedaContacto{
     }
 
     public void crearCorreo(String contenido, String asunto, Contacto destinatario) {
-        Correo correo = new Correo(contenido, asunto, destinatario, new Contacto(this.getNombre(), this.getEmail()));
+        correo = new Correo(contenido, asunto, destinatario, new Contacto(this.getNombre(), this.getEmail()));
 
     }
 
@@ -60,17 +61,26 @@ public class Usuario implements InterfaceBusquedaContacto{
         Contacto contacto = new Contacto(nombre, email);
         contactos.add(contacto);
     }
-
-    @Override
-    public Contacto buscarContactoEmail(String email) {
-        Predicate<Contacto> p = c -> c.getEmail().equals(email);
-        return contactos.stream().filter(p).findFirst().orElse(null);
+    
+    public Correo getCorreoActual(){
+        return correo;
     }
-
     public void mostrarContactos() {
         for (Contacto contacto : contactos) {
             System.out.println(contacto);
         }
+    }
+    
+    
+    
+    
+    
+    
+    
+    @Override
+    public Contacto buscarContactoEmail(String email) {
+        Predicate<Contacto> p = c -> c.getEmail().equals(email);
+        return contactos.stream().filter(p).findFirst().orElse(null);
     }
 
     @Override
