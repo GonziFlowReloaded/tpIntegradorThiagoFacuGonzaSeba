@@ -53,7 +53,7 @@ public class Usuario implements InterfaceBusquedaContacto{
     }
 
     public void crearCorreo(String contenido, String asunto, Contacto destinatario) {
-        correo = new Correo(contenido, asunto, destinatario, new Contacto(this.getNombre(), this.getEmail()));
+        correo = new Correo(contenido, asunto,new Contacto(this.getNombre(), this.getEmail()), destinatario);
 
     }
 
@@ -65,10 +65,8 @@ public class Usuario implements InterfaceBusquedaContacto{
     public Correo getCorreoActual(){
         return correo;
     }
-    public void mostrarContactos() {
-        for (Contacto contacto : contactos) {
-            System.out.println(contacto);
-        }
+    public ArrayList<Contacto> getContactos() {
+        return contactos;
     }
     
     
