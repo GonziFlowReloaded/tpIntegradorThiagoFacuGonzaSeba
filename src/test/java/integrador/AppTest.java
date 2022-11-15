@@ -33,4 +33,19 @@ public class AppTest {
         assertEquals("Jorgemite", usuario.getCorreoActual().getPara().get(0).getNombre());
         assertEquals("Roberto", usuario.getCorreoActual().getRemitente().getNombre());
     }
+
+    @Test
+    public void debeBuscarContacto(){
+        Usuario usuario = new Usuario("JuanRiquelme", "1234", "Roberto", "JuanPerez@gmail.com");
+        usuario.crearContacto("Jorgemite", "roberto@mail.com");
+        usuario.crearContacto("Maria", "Maria@mail.com");
+        usuario.crearContacto("Villa", "Violenciaintrafamiliar@mail.com");
+        usuario.crearContacto("Riquelme", "roberto@mail.com");
+
+        assertEquals("Maria", usuario.buscarContactoNombre("Maria").getNombre());
+        assertEquals("Maria@mail.com", usuario.buscarContactoNombre("Maria").getEmail());
+
+        assertEquals("Villa", usuario.buscarContactoEmail("Violenciaintrafamiliar@mail.com").getNombre());
+
+    }
 }
