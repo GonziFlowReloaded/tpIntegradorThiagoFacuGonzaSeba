@@ -2,7 +2,7 @@ package integrador;
 import java.util.*;
 import java.util.function.Predicate;
 
-public class Usuario {
+public class Usuario implements InterfaceBusquedaContacto{
     
 
     private String usuario;
@@ -51,8 +51,8 @@ public class Usuario {
         this.email = email;
     }
 
-    public void crearCorreo(String contenido, String asunto, String destinatario, Contacto remitente) {
-        Correo correo = new Correo(contenido, asunto, destinatario, remitente);
+    public void crearCorreo(String contenido, String asunto, Contacto destinatario) {
+        Correo correo = new Correo(contenido, asunto, destinatario, new Contacto(this.getNombre(), this.getEmail()));
 
     }
 
@@ -61,7 +61,8 @@ public class Usuario {
         contactos.add(contacto);
     }
 
-    public Contacto buscarContacto(String email) {
+    @Override
+    public Contacto buscarContactoEmail(String email) {
         Predicate<Contacto> p = c -> c.getEmail().equals(email);
         return contactos.stream().filter(p).findFirst().orElse(null);
     }
@@ -76,6 +77,21 @@ public class Usuario {
     public String toString() {
         return "Usuario{" + "usuario=" + usuario + ", password=" + password + ", nombre=" + nombre + ", email=" + email + ", contactos=" + contactos + '}';
     }
+
+    @Override
+    public Contacto buscarContactoNombre(String nombre) {
+        Predicate<Contacto> p = c -> c.getNombre().equals(nombre);
+        return contactos.stream().filter(p).findFirst().orElse(null);
+        
+    }
+
+    @Override
+    public Contacto buscarContacto(Contacto contacto) {
+        Predicate<Contacto> p = c -> c.equals(contacto);
+        return contactos.stream().filter(p).findFirst().orElse(null);
+    }
+
+    
     
 
     
