@@ -1,11 +1,12 @@
 package integrador;
+
 import static org.junit.Assert.assertEquals;
 import org.junit.*;
 
 public class AppTest {
-    
+
     @Test
-    public void debeCrearUsuario(){
+    public void debeCrearUsuario() {
         Usuario usuario = new Usuario("JuanRiquelme", "1234", "Roberto", "JuanPerez@gmail.com");
         assertEquals("JuanRiquelme", usuario.getUsuario());
         assertEquals("1234", usuario.getPassword());
@@ -13,9 +14,8 @@ public class AppTest {
         assertEquals("JuanPerez@gmail.com", usuario.getEmail());
     }
 
-
     @Test
-    public void debeAgregarContacto(){
+    public void debeAgregarContacto() {
         Usuario usuario = new Usuario("JuanRiquelme", "1234", "Roberto", "JuanPerez@gmail.com");
         usuario.crearContacto("Roberto Monzon", "RobertoCop69@yahoo.es");
         assertEquals("Roberto Monzon", usuario.getContactos().get(0).getNombre());
@@ -23,13 +23,12 @@ public class AppTest {
     }
 
     @Test
-    public void debeCrearCorreo(){
+    public void debeCrearCorreo() {
         Usuario usuario = new Usuario("JuanRiquelme", "1234", "Roberto", "JuanPerez@gmail.com");
 
         usuario.crearContacto("Jorgemite", "roberto@mail.com");
         usuario.crearCorreo("Hola, como estas?", "Saludo", usuario.getContactos().get(0));
 
-        
         assertEquals("Hola, como estas?", usuario.getCorreoActual().getContenido());
         assertEquals("Saludo", usuario.getCorreoActual().getAsunto());
         assertEquals("Jorgemite", usuario.getCorreoActual().getPara().get(0).getNombre());
@@ -37,7 +36,7 @@ public class AppTest {
     }
 
     @Test
-    public void debeBuscarContacto(){
+    public void debeBuscarContacto() {
         Usuario usuario = new Usuario("JuanRiquelme", "1234", "Roberto", "JuanPerez@gmail.com");
         usuario.crearContacto("Jorgemite", "roberto@mail.com");
         usuario.crearContacto("Maria", "Maria@mail.com");
@@ -52,26 +51,23 @@ public class AppTest {
     }
 
     @Test
-    public void debeEnviarCorreo(){
+    public void debeEnviarCorreo() {
         Registro paginaWeb = new Registro();
         Usuario usuario = new Usuario("JuanRiquelme", "1234", "Roberto", "JuanPerez@gmail.com");
         Usuario usuario2 = new Usuario("Roberto", "1234", "Roberto Perez", "RobertoPerez@gmail.com");
         Usuario usuario3 = new Usuario("Maria", "1234", "Maria Perez", "Maria@gmail.com");
 
-
         paginaWeb.registrarUsuario(usuario);
         paginaWeb.registrarUsuario(usuario2);
         paginaWeb.registrarUsuario(usuario3);
 
-
         usuario.crearContacto(usuario2.getNombre(), usuario2.getEmail());
         usuario.crearCorreo("Buenardo", "Soy fan de coscu", usuario.getContactos().get(0));
-        // usuario.getCorreoActual().agregarDestinatario(new Contacto(usuario2.getNombre(), usuario2.getEmail()));
+        // usuario.getCorreoActual().agregarDestinatario(new
+        // Contacto(usuario2.getNombre(), usuario2.getEmail()));
         usuario.crearContacto(usuario3.getNombre(), usuario3.getEmail());
 
         usuario.getCorreoActual().agregarDestinatario(usuario.getContactos().get(1));
-        
-        
 
         usuario.enviarCorreo(usuario.getCorreoActual(), paginaWeb);
 
@@ -79,5 +75,101 @@ public class AppTest {
         assertEquals("Soy fan de coscu", usuario3.getBuzon().getCorreos().get(0).getAsunto());
 
     }
-}
 
+    @Test
+    public void debeFiltrarPorAsunto() {
+        Registro paginaWeb = new Registro();
+        Usuario usuario = new Usuario("JuanRiquelme", "1234", "Roberto", "JuanPerez@gmail.com");
+        Usuario usuario2 = new Usuario("Roberto", "1234", "Roberto Perez", "RobertoPerez@gmail.com");
+        Usuario usuario3 = new Usuario("Maria", "1234", "Maria Perez", "Maria@gmail.com");
+
+        paginaWeb.registrarUsuario(usuario);
+        paginaWeb.registrarUsuario(usuario2);
+        paginaWeb.registrarUsuario(usuario3);
+
+        usuario.crearContacto(usuario2.getNombre(), usuario2.getEmail());
+        usuario.crearCorreo("Buenardo", "Soy fan de coscu", usuario.getContactos().get(0));
+        // usuario.getCorreoActual().agregarDestinatario(new
+        // Contacto(usuario2.getNombre(), usuario2.getEmail()));
+        usuario.crearContacto(usuario3.getNombre(), usuario3.getEmail());
+
+        usuario.getCorreoActual().agregarDestinatario(usuario.getContactos().get(1));
+
+        usuario.enviarCorreo(usuario.getCorreoActual(), paginaWeb);
+
+        Buzon buzon = usuario2.getBuzon();
+
+        assertEquals("Soy fan de coscu", buzon.buscarAsunto("Soy fan de coscu").getAsunto());
+    }
+
+    @Test
+    public void debeFiltrarPorRemitente() {
+        Registro paginaWeb = new Registro();
+        Usuario usuario = new Usuario("JuanRiquelme", "1234", "JuanRiquelme", "JuanPerez@gmail.com");
+
+        Usuario usuario2 = new Usuario("Roberto", "1234", "Roberto Perez", "RobertoPerez@gmail.com");
+
+        paginaWeb.registrarUsuario(usuario);
+        paginaWeb.registrarUsuario(usuario2);
+
+        usuario.crearContacto(usuario2.getNombre(), usuario2.getEmail());
+
+        usuario.crearCorreo("Buenardo", "Soy fan de coscu", usuario.getContactos().get(0));
+
+        usuario.enviarCorreo(usuario.getCorreoActual(), paginaWeb);
+
+        Buzon buzon = usuario2.getBuzon();
+
+        assertEquals("JuanRiquelme", buzon.buscarRemitente("JuanRiquelme").getRemitente().getNombre());
+
+    }
+
+    @Test
+    public void debeFiltrarPorContenido() {
+        Registro paginaWeb = new Registro();
+        Usuario usuario = new Usuario("JuanRiquelme", "1234", "JuanRiquelme", "JuanPerez@gmail.com");
+        Usuario usuario2 = new Usuario("Roberto", "1234", "Roberto Perez", "RobertoPerez@gmail.com");
+
+        paginaWeb.registrarUsuario(usuario);
+
+        paginaWeb.registrarUsuario(usuario2);
+
+        usuario.crearContacto(usuario2.getNombre(), usuario2.getEmail());
+
+        usuario.crearCorreo("Buenardo", "Soy fan de coscu", usuario.getContactos().get(0));
+
+        usuario.enviarCorreo(usuario.getCorreoActual(), paginaWeb);
+
+        Buzon buzon = usuario2.getBuzon();
+
+        assertEquals("Buenardo", buzon.buscarContenido("Buenardo").getContenido());
+
+    }
+
+    @Test
+    public void debeFiltrarPorNombreEmailDestinatario() {
+        Registro paginaWeb = new Registro();
+        Usuario usuario = new Usuario("JuanRiquelme", "1234", "JuanRiquelme", "JuanPerez@gmail.com");
+        Usuario usuario2 = new Usuario("Roberto", "1234", "Roberto Perez", "RobertoPerez@gmail.com");
+
+        paginaWeb.registrarUsuario(usuario);
+
+        paginaWeb.registrarUsuario(usuario2);
+
+        usuario.crearContacto(usuario2.getNombre(), usuario2.getEmail());
+
+        usuario.crearCorreo("Buenardo", "Soy fan de coscu", usuario.getContactos().get(0));
+
+        usuario.enviarCorreo(usuario.getCorreoActual(), paginaWeb);
+
+        Buzon buzon = usuario2.getBuzon();
+
+        assertEquals("Roberto Perez",
+                buzon.buscarDestinatarioNombreEmail("Roberto Perez", "RobertoPerez@gmail.com").getPara().get(0)
+                        .getNombre());
+
+    }
+
+    
+
+}
