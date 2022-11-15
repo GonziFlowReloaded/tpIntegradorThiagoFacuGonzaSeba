@@ -3,6 +3,8 @@ package integrador;
 import static org.junit.Assert.assertEquals;
 import org.junit.*;
 
+import java.time.*;
+
 public class AppTest {
 
     @Test
@@ -24,15 +26,19 @@ public class AppTest {
 
     @Test
     public void debeCrearCorreo() {
+
+        LocalDate fecha = LocalDate.now();
+
         Usuario usuario = new Usuario("JuanRiquelme", "1234", "Roberto", "JuanPerez@gmail.com");
 
         usuario.crearContacto("Jorgemite", "roberto@mail.com");
-        usuario.crearCorreo("Hola, como estas?", "Saludo", usuario.getContactos().get(0));
+        usuario.crearCorreo("Hola, como estas?", "Saludo", usuario.getContactos().get(0), fecha);
 
         assertEquals("Hola, como estas?", usuario.getCorreoActual().getContenido());
         assertEquals("Saludo", usuario.getCorreoActual().getAsunto());
         assertEquals("Jorgemite", usuario.getCorreoActual().getPara().get(0).getNombre());
         assertEquals("Roberto", usuario.getCorreoActual().getRemitente().getNombre());
+        assertEquals(fecha, usuario.getCorreoActual().getFecha());
     }
 
     @Test
@@ -52,6 +58,7 @@ public class AppTest {
 
     @Test
     public void debeEnviarCorreo() {
+        LocalDate fecha = LocalDate.now();
         Registro paginaWeb = new Registro();
         Usuario usuario = new Usuario("JuanRiquelme", "1234", "Roberto", "JuanPerez@gmail.com");
         Usuario usuario2 = new Usuario("Roberto", "1234", "Roberto Perez", "RobertoPerez@gmail.com");
@@ -62,7 +69,7 @@ public class AppTest {
         paginaWeb.registrarUsuario(usuario3);
 
         usuario.crearContacto(usuario2.getNombre(), usuario2.getEmail());
-        usuario.crearCorreo("Buenardo", "Soy fan de coscu", usuario.getContactos().get(0));
+        usuario.crearCorreo("Buenardo", "Soy fan de coscu", usuario.getContactos().get(0), fecha);
         // usuario.getCorreoActual().agregarDestinatario(new
         // Contacto(usuario2.getNombre(), usuario2.getEmail()));
         usuario.crearContacto(usuario3.getNombre(), usuario3.getEmail());
@@ -78,6 +85,7 @@ public class AppTest {
 
     @Test
     public void debeFiltrarPorAsunto() {
+        LocalDate fecha = LocalDate.now();
         Registro paginaWeb = new Registro();
         Usuario usuario = new Usuario("JuanRiquelme", "1234", "Roberto", "JuanPerez@gmail.com");
         Usuario usuario2 = new Usuario("Roberto", "1234", "Roberto Perez", "RobertoPerez@gmail.com");
@@ -88,7 +96,7 @@ public class AppTest {
         paginaWeb.registrarUsuario(usuario3);
 
         usuario.crearContacto(usuario2.getNombre(), usuario2.getEmail());
-        usuario.crearCorreo("Buenardo", "Soy fan de coscu", usuario.getContactos().get(0));
+        usuario.crearCorreo("Buenardo", "Soy fan de coscu", usuario.getContactos().get(0), fecha);
         // usuario.getCorreoActual().agregarDestinatario(new
         // Contacto(usuario2.getNombre(), usuario2.getEmail()));
         usuario.crearContacto(usuario3.getNombre(), usuario3.getEmail());
@@ -104,6 +112,7 @@ public class AppTest {
 
     @Test
     public void debeFiltrarPorRemitente() {
+        LocalDate fecha = LocalDate.now();
         Registro paginaWeb = new Registro();
         Usuario usuario = new Usuario("JuanRiquelme", "1234", "JuanRiquelme", "JuanPerez@gmail.com");
 
@@ -114,7 +123,7 @@ public class AppTest {
 
         usuario.crearContacto(usuario2.getNombre(), usuario2.getEmail());
 
-        usuario.crearCorreo("Buenardo", "Soy fan de coscu", usuario.getContactos().get(0));
+        usuario.crearCorreo("Buenardo", "Soy fan de coscu", usuario.getContactos().get(0), fecha);
 
         usuario.enviarCorreo(usuario.getCorreoActual(), paginaWeb);
 
@@ -126,6 +135,7 @@ public class AppTest {
 
     @Test
     public void debeFiltrarPorContenido() {
+        LocalDate fecha = LocalDate.now();
         Registro paginaWeb = new Registro();
         Usuario usuario = new Usuario("JuanRiquelme", "1234", "JuanRiquelme", "JuanPerez@gmail.com");
         Usuario usuario2 = new Usuario("Roberto", "1234", "Roberto Perez", "RobertoPerez@gmail.com");
@@ -136,7 +146,7 @@ public class AppTest {
 
         usuario.crearContacto(usuario2.getNombre(), usuario2.getEmail());
 
-        usuario.crearCorreo("Buenardo", "Soy fan de coscu", usuario.getContactos().get(0));
+        usuario.crearCorreo("Buenardo", "Soy fan de coscu", usuario.getContactos().get(0), fecha);
 
         usuario.enviarCorreo(usuario.getCorreoActual(), paginaWeb);
 
@@ -148,6 +158,7 @@ public class AppTest {
 
     @Test
     public void debeFiltrarPorNombreEmailDestinatario() {
+        LocalDate fecha = LocalDate.now();
         Registro paginaWeb = new Registro();
         Usuario usuario = new Usuario("JuanRiquelme", "1234", "JuanRiquelme", "JuanPerez@gmail.com");
         Usuario usuario2 = new Usuario("Roberto", "1234", "Roberto Perez", "RobertoPerez@gmail.com");
@@ -158,7 +169,7 @@ public class AppTest {
 
         usuario.crearContacto(usuario2.getNombre(), usuario2.getEmail());
 
-        usuario.crearCorreo("Buenardo", "Soy fan de coscu", usuario.getContactos().get(0));
+        usuario.crearCorreo("Buenardo", "Soy fan de coscu", usuario.getContactos().get(0), fecha);
 
         usuario.enviarCorreo(usuario.getCorreoActual(), paginaWeb);
 
@@ -170,6 +181,26 @@ public class AppTest {
 
     }
 
-    
+    @Test
+    public void debeFiltrarPorFechaNombreDestinatario() {
+        LocalDate fecha = LocalDate.now();
+        Registro paginaWeb = new Registro();
+        Usuario usuario = new Usuario("JuanRiquelme", "1234", "JuanRiquelme", "JuanPerez@gmail.com");
+        Usuario usuario2 = new Usuario("Roberto", "1234", "Roberto Perez", "RobertoPerez@gmail.com");
 
+        paginaWeb.registrarUsuario(usuario);
+
+        paginaWeb.registrarUsuario(usuario2);
+
+        usuario.crearContacto(usuario2.getNombre(), usuario2.getEmail());
+
+        usuario.crearCorreo("Buenardo", "Soy fan de coscu", usuario.getContactos().get(0), fecha);
+
+        usuario.enviarCorreo(usuario.getCorreoActual(), paginaWeb);
+
+        Buzon buzon = usuario2.getBuzon();
+
+        assertEquals(fecha, buzon.buscarFechaNombreRemitente(fecha, "JuanRiquelme").getFecha());
+
+    }
 }

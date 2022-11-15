@@ -2,6 +2,7 @@ package integrador;
 
 import java.util.ArrayList;
 import java.util.function.Predicate;
+import java.time.*;
 
 public class Buzon implements InterfaceBandejaDeEntrada, InterfaceBusquedaCorreo{
     
@@ -54,8 +55,15 @@ public class Buzon implements InterfaceBandejaDeEntrada, InterfaceBusquedaCorreo
     }
  
     @Override
-   public Correo buscarDestinatarioNombreEmail(String nombre, String email) {
-        Predicate<Correo> filtro = c -> c.getPara().stream().anyMatch(d -> d.getNombre().equals(nombre) && d.getEmail().equals(email));
+    public Correo buscarDestinatarioNombreEmail(String nombre, String email) {
+        Predicate<Correo> filtro = c -> c.getPara().stream()
+                .anyMatch(d -> d.getNombre().equals(nombre) && d.getEmail().equals(email));
+        return correos.stream().filter(filtro).findFirst().orElse(null);
+    }
+    
+    @Override
+    public Correo buscarFechaNombreRemitente(LocalDate fecha, String nombre) {
+        Predicate<Correo> filtro = c -> c.getFecha().equals(fecha) && c.getRemitente().getNombre().equals(nombre);
         return correos.stream().filter(filtro).findFirst().orElse(null);
     }
 
