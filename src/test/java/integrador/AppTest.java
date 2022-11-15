@@ -50,4 +50,22 @@ public class AppTest {
         assertEquals("Villa", usuario.buscarContactoEmail("Violenciaintrafamiliar@mail.com").getNombre());
 
     }
+
+    @Test
+    public void debeEnviarCorreo(){
+        Registro paginaWeb = new Registro();
+        Usuario usuario = new Usuario("JuanRiquelme", "1234", "Roberto", "JuanPerez@gmail.com");
+        Usuario usuario2 = new Usuario("Roberto", "1234", "Roberto Perez", "RobertoPerez@gmail.com");
+        paginaWeb.registrarUsuario(usuario);
+        paginaWeb.registrarUsuario(usuario2);
+
+        usuario.crearCorreo("Buenardo", "Soy fan de coscu", null);
+        usuario.getCorreoActual().agregarDestinatario(new Contacto(usuario2.getNombre(), usuario2.getEmail()));
+    
+        usuario.enviarCorreo(usuario.getCorreoActual(), paginaWeb);
+
+        assertEquals("Buenardo", usuario2.getBuzon().getCorreos().get(0).getContenido());
+    
+    }
 }
+

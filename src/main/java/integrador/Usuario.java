@@ -2,6 +2,8 @@ package integrador;
 import java.util.*;
 import java.util.function.Predicate;
 
+import javax.imageio.spi.RegisterableService;
+
 public class Usuario implements InterfaceBusquedaContacto{
     
 
@@ -52,6 +54,9 @@ public class Usuario implements InterfaceBusquedaContacto{
     public void setEmail(String email) {
         this.email = email;
     }
+    public Buzon getBuzon() {
+        return buzon;
+    }
 
     public void crearCorreo(String contenido, String asunto, Contacto destinatario) {
         correo = new Correo(contenido, asunto,new Contacto(this.getNombre(), this.getEmail()), destinatario);
@@ -67,8 +72,12 @@ public class Usuario implements InterfaceBusquedaContacto{
         return correo;
     }
 
-    public void enviarCorreo(Correo correo){
+    public void enviarCorreo(Correo correo, Registro registro){
         buzon.agregarCorreoEnviado(correo);
+        for (Contacto destinatario : correo.getPara()){
+            registro.usuarios.stream().filter(u -> u.getEmail().equals(destinatario.getEmail())).findFirst().orElse(null).getBuzon().agregarCorreo(correo);
+            
+        }
     }
 
 
@@ -90,10 +99,7 @@ public class Usuario implements InterfaceBusquedaContacto{
         return contactos.stream().filter(p).findFirst().orElse(null);
     }
 
-    @Override
-    public String toString() {
-        return "Usuario{" + "usuario=" + usuario + ", password=" + password + ", nombre=" + nombre + ", email=" + email + ", contactos=" + contactos + '}';
-    }
+    
 
     @Override
     public Contacto buscarContactoNombre(String nombre) {
@@ -108,7 +114,10 @@ public class Usuario implements InterfaceBusquedaContacto{
         return contactos.stream().filter(p).findFirst().orElse(null);
     }
 
-    
+    @Override
+    public String toString() {
+        return "Usuario{" + "usuario=" + usuario + ", password=" + password + ", nombre=" + nombre + ", email=" + email + ", contactos=" + contactos + '}';
+    }
     
 
     
