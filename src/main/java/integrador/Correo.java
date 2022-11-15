@@ -6,13 +6,13 @@ public class Correo {
     private String contenido;
     private String asunto;
     private Contacto remitente;
-    ArrayList<Contacto> para = new ArrayList<Contacto>();
+    ArrayList<Contacto> paraArray = new ArrayList<Contacto>();
 
     public Correo(String contenido, String asunto, Contacto remitente, Contacto para) {
         setContenido(contenido);
         setAsunto(asunto);
         setRemitente(remitente);
-        this.para.add(para);
+        paraArray.add(para);
 
     }
 
@@ -41,16 +41,16 @@ public class Correo {
     }
 
     public ArrayList<Contacto> getPara() {
-        return this.para;
+        return paraArray;
     }
     public void agregarDestinatario(Contacto destinatario){
-        this.para.add(destinatario);
+        paraArray.add(destinatario);
     }
     
 
     @Override
     public String toString() {
-        return "Correo{" + "contenido=" + contenido + ", asunto=" + asunto + ", remitente=" + remitente + ", para=" + para + '}';
+        return "Correo{" + "contenido=" + contenido + ", asunto=" + asunto + ", remitente=" + remitente + ", para=" + paraArray + '}';
     }
 
     

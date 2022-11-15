@@ -2,7 +2,6 @@ package integrador;
 import java.util.*;
 import java.util.function.Predicate;
 
-import javax.imageio.spi.RegisterableService;
 
 public class Usuario implements InterfaceBusquedaContacto{
     
@@ -13,7 +12,8 @@ public class Usuario implements InterfaceBusquedaContacto{
     private String email;
     private Correo correo;
     ArrayList<Contacto> contactos = new ArrayList<Contacto>();
-    private Buzon buzon;
+    private Buzon buzon = new Buzon();
+    private Correo correoActual;
     
 
     public Usuario(String usuario, String password, String nombre, String email) {
@@ -42,6 +42,10 @@ public class Usuario implements InterfaceBusquedaContacto{
     public String getNombre() {
         return nombre;
     }
+    public void setCorreoActual(Correo correo){
+        this.correoActual = correo;
+    }
+    
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
@@ -60,6 +64,7 @@ public class Usuario implements InterfaceBusquedaContacto{
 
     public void crearCorreo(String contenido, String asunto, Contacto destinatario) {
         correo = new Correo(contenido, asunto,new Contacto(this.getNombre(), this.getEmail()), destinatario);
+        this.setCorreoActual(correo);
 
     }
 
@@ -69,13 +74,14 @@ public class Usuario implements InterfaceBusquedaContacto{
     }
     
     public Correo getCorreoActual(){
-        return correo;
+        return correoActual;
     }
 
     public void enviarCorreo(Correo correo, Registro registro){
         buzon.agregarCorreoEnviado(correo);
         for (Contacto destinatario : correo.getPara()){
-            registro.usuarios.stream().filter(u -> u.getEmail().equals(destinatario.getEmail())).findFirst().orElse(null).getBuzon().agregarCorreo(correo);
+            // registro.usuarios.stream().filter(u -> u.getEmail().equals(destinatario.getEmail())).findFirst().orElse(null).getBuzon().agregarCorreo(correo);
+            registro.usuarios.stream().filter(u -> u.getEmail().equals(destinatario.getEmail())).findFirst().get().getBuzon().agregarCorreo(correo);
             
         }
     }
