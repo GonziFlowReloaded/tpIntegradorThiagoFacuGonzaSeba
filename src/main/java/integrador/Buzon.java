@@ -39,6 +39,11 @@ public class Buzon implements InterfaceBandejaDeEntrada, InterfaceBusquedaCorreo
         Predicate<Correo> filtro = c -> c.getAsunto().equals(asunto);
         return correos.stream().filter(filtro).findFirst().orElse(null);
     }
+    @Override
+    public Predicate<Correo> crearFiltroAsunto(String asunto) {
+        Predicate<Correo> filtro = c -> c.getAsunto().equals(asunto);
+        return filtro;
+    }
 
     @Override
     public Correo buscarRemitente(String remitente) {
