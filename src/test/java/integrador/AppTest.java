@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import org.junit.*;
 
 import java.time.*;
+import java.util.function.Predicate;
 
 public class AppTest {
 
@@ -96,9 +97,8 @@ public class AppTest {
         paginaWeb.registrarUsuario(usuario3);
 
         usuario.crearContacto(usuario2.getNombre(), usuario2.getEmail());
-        usuario.crearCorreo("Buenardo", "Soy fan de coscu", usuario.getContactos().get(0), fecha);
-        // usuario.getCorreoActual().agregarDestinatario(new
-        // Contacto(usuario2.getNombre(), usuario2.getEmail()));
+        usuario.crearCorreo("Buenardo", "hola", usuario.getContactos().get(0), fecha);
+
         usuario.crearContacto(usuario3.getNombre(), usuario3.getEmail());
 
         usuario.getCorreoActual().agregarDestinatario(usuario.getContactos().get(1));
@@ -107,7 +107,10 @@ public class AppTest {
 
         Buzon buzon = usuario2.getBuzon();
 
-        assertEquals("Soy fan de coscu", buzon.buscarAsunto("Soy fan de coscu").getAsunto());
+        Predicate<Correo> filtro1 = buzon.crearFiltroAsunto("hola");
+
+        assertEquals("hola", buzon.buscar(filtro1).getAsunto());
+
     }
 
     @Test
@@ -129,8 +132,17 @@ public class AppTest {
 
         Buzon buzon = usuario2.getBuzon();
 
-        assertEquals("JuanRiquelme", buzon.buscarRemitente("JuanRiquelme").getRemitente().getNombre());
+        Predicate<Correo> filtro1 = buzon.crearFiltroRemitente("JuanRiquelme");
 
+        Predicate<Correo> filtro2 = buzon.crearFiltroAsunto("Soy fan de coscu");
+
+        Predicate<Correo> filtroCombinado = buzon.combinarFiltros(filtro1, filtro2);
+
+        assertEquals("Soy fan de coscu", buzon.buscar(filtroCombinado).getAsunto();
+
+        
+
+        
     }
 
     @Test

@@ -1,17 +1,22 @@
 package integrador;
 
 import java.time.LocalDate;
+import java.util.function.Predicate;
 
 public interface InterfaceBusquedaCorreo {
     // Busqueda para correo
-    public Correo buscarAsunto(String asunto);
+    public Correo buscar(Predicate<Correo> filtro);
 
-    public Correo buscarRemitente(String remitente);
+    public Predicate<Correo> crearFiltroAsunto(String asunto);
 
-    public Correo buscarContenido(String contenido);
+    public Predicate<Correo> crearFiltroRemitente(String remitente);
 
-    public Correo buscarDestinatarioNombreEmail(String nombre, String email);
+    public Predicate<Correo> crearFiltroContenido(String contenido);
 
-    public Correo buscarFechaNombreRemitente(LocalDate fecha, String nombre);
+    public Predicate<Correo> crearFiltroFecha(LocalDate fecha);
+
+    public Predicate<Correo> combinarFiltros(Predicate<Correo> filtro1, Predicate<Correo> filtro2);
+
+
 
 }
