@@ -1,4 +1,5 @@
 package integrador;
+import java.time.LocalDate;
 import java.util.*;
 import java.util.function.Predicate;
 
@@ -62,8 +63,8 @@ public class Usuario implements InterfaceBusquedaContacto{
         return buzon;
     }
 
-    public void crearCorreo(String contenido, String asunto, Contacto destinatario) {
-        correo = new Correo(contenido, asunto,new Contacto(this.getNombre(), this.getEmail()), destinatario);
+    public void crearCorreo(String contenido, String asunto, Contacto destinatario, LocalDate fecha) {
+        correo = new Correo(contenido, asunto,new Contacto(this.getNombre(), this.getEmail()), destinatario, fecha);
         this.setCorreoActual(correo);
 
     }
