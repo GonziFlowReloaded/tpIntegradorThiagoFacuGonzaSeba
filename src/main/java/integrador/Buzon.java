@@ -2,7 +2,6 @@ package integrador;
 
 import java.util.ArrayList;
 import java.util.function.Predicate;
-import java.io.File;
 import java.time.*;
 
 public class Buzon implements InterfaceBandejaDeEntrada, InterfaceBusquedaCorreo {

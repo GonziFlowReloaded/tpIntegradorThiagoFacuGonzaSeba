@@ -71,8 +71,7 @@ public class AppTest {
 
         usuario.crearContacto(usuario2.getNombre(), usuario2.getEmail());
         usuario.crearCorreo("Buenardo", "Soy fan de coscu", usuario.getContactos().get(0), fecha);
-        // usuario.getCorreoActual().agregarDestinatario(new
-        // Contacto(usuario2.getNombre(), usuario2.getEmail()));
+        
         usuario.crearContacto(usuario3.getNombre(), usuario3.getEmail());
 
         usuario.getCorreoActual().agregarDestinatario(usuario.getContactos().get(1));
@@ -181,8 +180,6 @@ public class AppTest {
 
         Predicate<Correo> filtro3 = usuario.getBuzon().combinarFiltros(filtro1, filtro2);
 
-        // System.out.println(usuario.getBuzon().buscar(filtro1, filtro2).getAsunto());
-        // System.out.println(usuario.getBuzon().buscar(filtro3).getContenido());
         assertEquals("Hola", usuario.getBuzon().buscar(filtro1, filtro2).getContenido());
         assertEquals("SoyFan De coscu", usuario.getBuzon().buscar(filtro3).getAsunto());
     }
@@ -210,13 +207,10 @@ public class AppTest {
 
         Predicate<Correo> filtro3 = usuario2.getBuzon().combinarFiltros(filtro1, filtro2);
 
-        // System.out.println(usuario.getBuzon().buscar(filtro1, filtro2).getFecha());
 
-        // System.out.println(usuario.getBuzon().buscar(filtro3).getRemitente().getNombre());
+        assertEquals(fecha, usuario2.getBuzon().buscar(filtro1, filtro2).getFecha());
 
-        System.out.println(fecha);
-
-        assertEquals("JuanRiquelme", usuario2.getBuzon().buscar(filtro1, filtro2).getRemitente().getNombre());
+        assertEquals("JuanRiquelme", usuario2.getBuzon().buscar(filtro3).getRemitente().getNombre());
     }
 
     @Test
@@ -247,11 +241,9 @@ public class AppTest {
 
         Predicate<Correo> filtro3 = usuario2.getBuzon().combinarFiltros(filtro1, filtro2);
 
-        // System.out.println(usuario.getBuzon().buscar(filtro1, filtro2).getFecha());
+        assertEquals(fecha, usuario2.getBuzon().buscar(filtro1, filtro2).getFecha());
 
-        // System.out.println(usuario.getBuzon().buscar(filtro3).getContenido());
-
-        assertEquals("Buenardo", usuario2.getBuzon().buscar(filtro1, filtro2).getContenido());
+        assertEquals("Buenardo", usuario2.getBuzon().buscar(filtro3).getContenido());
 
 
     }
