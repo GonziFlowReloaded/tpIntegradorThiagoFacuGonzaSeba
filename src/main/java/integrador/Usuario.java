@@ -1,11 +1,10 @@
 package integrador;
+
 import java.time.LocalDate;
 import java.util.*;
 import java.util.function.Predicate;
 
-
-public class Usuario implements InterfaceBusquedaContacto{
-    
+public class Usuario implements InterfaceBusquedaContacto {
 
     private String usuario;
     private String password;
@@ -15,7 +14,6 @@ public class Usuario implements InterfaceBusquedaContacto{
     ArrayList<Contacto> contactos = new ArrayList<Contacto>();
     private Buzon buzon = new Buzon();
     private Correo correoActual;
-    
 
     public Usuario(String usuario, String password, String nombre, String email) {
         setUsuario(usuario);
@@ -43,10 +41,10 @@ public class Usuario implements InterfaceBusquedaContacto{
     public String getNombre() {
         return nombre;
     }
-    public void setCorreoActual(Correo correo){
+
+    public void setCorreoActual(Correo correo) {
         this.correoActual = correo;
     }
-    
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
@@ -59,12 +57,13 @@ public class Usuario implements InterfaceBusquedaContacto{
     public void setEmail(String email) {
         this.email = email;
     }
+
     public Buzon getBuzon() {
         return buzon;
     }
 
     public void crearCorreo(String contenido, String asunto, Contacto destinatario, LocalDate fecha) {
-        correo = new Correo(contenido, asunto,new Contacto(this.getNombre(), this.getEmail()), destinatario, fecha);
+        correo = new Correo(contenido, asunto, new Contacto(this.getNombre(), this.getEmail()), destinatario, fecha);
         this.setCorreoActual(correo);
 
     }
@@ -73,59 +72,43 @@ public class Usuario implements InterfaceBusquedaContacto{
         Contacto contacto = new Contacto(nombre, email);
         contactos.add(contacto);
     }
-    
-    public Correo getCorreoActual(){
+
+    public Correo getCorreoActual() {
         return correoActual;
     }
 
-    public void enviarCorreo(Correo correo, Registro registro){
+    public void enviarCorreo(Correo correo, Registro registro) {
         buzon.agregarCorreoEnviado(correo);
-        for (Contacto destinatario : correo.getPara()){
-            // registro.usuarios.stream().filter(u -> u.getEmail().equals(destinatario.getEmail())).findFirst().orElse(null).getBuzon().agregarCorreo(correo);
-            registro.usuarios.stream().filter(u -> u.getEmail().equals(destinatario.getEmail())).findFirst().get().getBuzon().agregarCorreo(correo);
-            
+        for (Contacto destinatario : correo.getPara()) {
+            // registro.usuarios.stream().filter(u ->
+            // u.getEmail().equals(destinatario.getEmail())).findFirst().orElse(null).getBuzon().agregarCorreo(correo);
+            registro.usuarios.stream().filter(u -> u.getEmail().equals(destinatario.getEmail())).findFirst().get()
+                    .getBuzon().agregarCorreo(correo);
+
         }
     }
-
-
 
     public ArrayList<Contacto> getContactos() {
         return contactos;
     }
-    
 
-    
-    
-    
-    
-    
-    
     @Override
     public Contacto buscarContactoEmail(String email) {
         Predicate<Contacto> p = c -> c.getEmail().equals(email);
         return contactos.stream().filter(p).findFirst().orElse(null);
     }
 
-    
-
     @Override
     public Contacto buscarContactoNombre(String nombre) {
         Predicate<Contacto> p = c -> c.getNombre().equals(nombre);
         return contactos.stream().filter(p).findFirst().orElse(null);
-        
-    }
 
-    @Override
-    public Contacto buscarContacto(Contacto contacto) {
-        Predicate<Contacto> p = c -> c.equals(contacto);
-        return contactos.stream().filter(p).findFirst().orElse(null);
     }
 
     @Override
     public String toString() {
-        return "Usuario{" + "usuario=" + usuario + ", password=" + password + ", nombre=" + nombre + ", email=" + email + ", contactos=" + contactos + '}';
+        return "Usuario{" + "usuario=" + usuario + ", password=" + password + ", nombre=" + nombre + ", email=" + email
+                + ", contactos=" + contactos + '}';
     }
-    
 
-    
 }

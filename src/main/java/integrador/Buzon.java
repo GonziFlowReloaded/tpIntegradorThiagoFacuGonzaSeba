@@ -31,16 +31,12 @@ public class Buzon implements InterfaceBandejaDeEntrada, InterfaceBusquedaCorreo
     }
 
     @Override
-    public void mostrarCorreos() {
-
-    }
-
-    @Override
     public Correo buscar(Predicate<Correo> filtro) {
 
         return this.correos.stream().filter(filtro).findFirst().orElse(null);
     }
-    public Correo buscar(Predicate<Correo> filtro1, Predicate<Correo> filtro2){
+
+    public Correo buscar(Predicate<Correo> filtro1, Predicate<Correo> filtro2) {
         return this.correos.stream().filter(filtro1).filter(filtro2).findFirst().orElse(null);
     }
 
@@ -49,7 +45,6 @@ public class Buzon implements InterfaceBandejaDeEntrada, InterfaceBusquedaCorreo
         Predicate<Correo> filtro = c -> c.getAsunto().equals(asunto);
         return filtro;
     }
-    
 
     @Override
     public Predicate<Correo> crearFiltroRemitente(String remitente) {
@@ -70,11 +65,10 @@ public class Buzon implements InterfaceBandejaDeEntrada, InterfaceBusquedaCorreo
     }
 
     @Override
-    public Predicate<Correo> combinarFiltros(Predicate <Correo> filtro1, Predicate <Correo> filtro2) {
+    public Predicate<Correo> combinarFiltros(Predicate<Correo> filtro1, Predicate<Correo> filtro2) {
         Predicate<Correo> filtro = c -> filtro1.test(c) && filtro2.test(c);
-        
+
         return filtro;
     }
 
-    
 }

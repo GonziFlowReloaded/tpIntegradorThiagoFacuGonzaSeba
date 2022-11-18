@@ -45,15 +45,15 @@ public class AppTest {
     @Test
     public void debeBuscarContacto() {
         Usuario usuario = new Usuario("JuanRiquelme", "1234", "Roberto", "JuanPerez@gmail.com");
-        usuario.crearContacto("Jorgemite", "roberto@mail.com");
+        usuario.crearContacto("Jorgemite", "jorge@mail.com");
         usuario.crearContacto("Maria", "Maria@mail.com");
-        usuario.crearContacto("Villa", "Violenciaintrafamiliar@mail.com");
+        usuario.crearContacto("Villa", "villa@mail.com");
         usuario.crearContacto("Riquelme", "roberto@mail.com");
 
         assertEquals("Maria", usuario.buscarContactoNombre("Maria").getNombre());
         assertEquals("Maria@mail.com", usuario.buscarContactoNombre("Maria").getEmail());
 
-        assertEquals("Villa", usuario.buscarContactoEmail("Violenciaintrafamiliar@mail.com").getNombre());
+        assertEquals("Villa", usuario.buscarContactoEmail("villa@mail.com").getNombre());
 
     }
 
@@ -71,7 +71,7 @@ public class AppTest {
 
         usuario.crearContacto(usuario2.getNombre(), usuario2.getEmail());
         usuario.crearCorreo("Buenardo", "Soy fan de coscu", usuario.getContactos().get(0), fecha);
-        
+
         usuario.crearContacto(usuario3.getNombre(), usuario3.getEmail());
 
         usuario.getCorreoActual().agregarDestinatario(usuario.getContactos().get(1));
@@ -81,6 +81,45 @@ public class AppTest {
         assertEquals("Buenardo", usuario2.getBuzon().getCorreos().get(0).getContenido());
         assertEquals("Soy fan de coscu", usuario3.getBuzon().getCorreos().get(0).getAsunto());
 
+    }
+
+    @Test
+    public void debeEliminarCorreo() {
+        LocalDate fecha = LocalDate.now();
+        Registro paginaWeb = new Registro();
+        Usuario usuario = new Usuario("JuanRiquelme", "1234", "Juan", "JuanPerez@mail.com");
+        Usuario usuario2 = new Usuario("Roberto", "1234", "Roberto Perez", "roberto@gmail.com");
+
+        paginaWeb.registrarUsuario(usuario);
+        paginaWeb.registrarUsuario(usuario2);
+
+        usuario.crearContacto(usuario2.getNombre(), usuario2.getEmail());
+        usuario.crearCorreo("Buenardo", "Soy fan de coscu", usuario.getContactos().get(0), fecha);
+
+        Buzon buzon = usuario2.getBuzon();
+
+        buzon.eliminarCorreo(usuario.getCorreoActual());
+
+        assertEquals(0, buzon.getCorreos().size());
+
+    }
+
+    @Test
+    public void debeBuscarContactoNombre() {
+        Usuario usuario = new Usuario("JuanRiquelme", "1234", "Roberto", "roberto@gmail.com");
+
+        usuario.crearContacto("Jorge", "jorge@gmail.com");
+
+        assertEquals("Jorge", usuario.buscarContactoNombre("Jorge").getNombre());
+    }
+
+    @Test
+    public void debeBuscarContactoEmail() {
+        Usuario usuario = new Usuario("JuanRiquelme", "1234", "Roberto", "roberto@gmail.com");
+
+        usuario.crearContacto("Jorge", "jorge@gmail.com");
+
+        assertEquals("Jorge", usuario.buscarContactoEmail("jorge@gmail.com").getNombre());
     }
 
     @Test
@@ -207,7 +246,6 @@ public class AppTest {
 
         Predicate<Correo> filtro3 = usuario2.getBuzon().combinarFiltros(filtro1, filtro2);
 
-
         assertEquals(fecha, usuario2.getBuzon().buscar(filtro1, filtro2).getFecha());
 
         assertEquals("JuanRiquelme", usuario2.getBuzon().buscar(filtro3).getRemitente().getNombre());
@@ -244,7 +282,6 @@ public class AppTest {
         assertEquals(fecha, usuario2.getBuzon().buscar(filtro1, filtro2).getFecha());
 
         assertEquals("Buenardo", usuario2.getBuzon().buscar(filtro3).getContenido());
-
 
     }
 }
