@@ -135,8 +135,6 @@ public class AppTest {
         Predicate<Correo> filtro1 = buzon.crearFiltroRemitente("JuanRiquelme");
 
         assertEquals("JuanRiquelme", buzon.buscar(filtro1).getRemitente().getNombre());
-        
-
 
     }
 
@@ -157,69 +155,23 @@ public class AppTest {
 
         usuario.enviarCorreo(usuario.getCorreoActual(), paginaWeb);
 
-        // Buzon buzon = usuario2.getBuzon();
+        Buzon buzon = usuario2.getBuzon();
 
-        // assertEquals("Buenardo", buzon.buscarContenido("Buenardo").getContenido());
+        Predicate<Correo> filtro1 = buzon.crearFiltroContenido("Buenardo");
 
-    }
-
-    @Test
-    public void debeFiltrarPorNombreEmailDestinatario() {
-        LocalDate fecha = LocalDate.now();
-        Registro paginaWeb = new Registro();
-        Usuario usuario = new Usuario("JuanRiquelme", "1234", "JuanRiquelme", "JuanPerez@gmail.com");
-        Usuario usuario2 = new Usuario("Roberto", "1234", "Roberto Perez", "RobertoPerez@gmail.com");
-
-        paginaWeb.registrarUsuario(usuario);
-
-        paginaWeb.registrarUsuario(usuario2);
-
-        usuario.crearContacto(usuario2.getNombre(), usuario2.getEmail());
-
-        usuario.crearCorreo("Buenardo", "Soy fan de coscu", usuario.getContactos().get(0), fecha);
-
-        usuario.enviarCorreo(usuario.getCorreoActual(), paginaWeb);
-
-        // Buzon buzon = usuario2.getBuzon();
-
-        // assertEquals("Roberto Perez",
-        //         buzon.buscarDestinatarioNombreEmail("Roberto Perez", "RobertoPerez@gmail.com").getPara().get(0)
-        //                 .getNombre());
+        assertEquals("Buenardo", buzon.buscar(filtro1).getContenido());
 
     }
 
     @Test
-    public void debeFiltrarPorFechaNombreDestinatario() {
-        LocalDate fecha = LocalDate.now();
-        Registro paginaWeb = new Registro();
-        Usuario usuario = new Usuario("JuanRiquelme", "1234", "JuanRiquelme", "JuanPerez@gmail.com");
-        Usuario usuario2 = new Usuario("Roberto", "1234", "Roberto Perez", "RobertoPerez@gmail.com");
-
-        paginaWeb.registrarUsuario(usuario);
-
-        paginaWeb.registrarUsuario(usuario2);
-
-        usuario.crearContacto(usuario2.getNombre(), usuario2.getEmail());
-
-        usuario.crearCorreo("Buenardo", "Soy fan de coscu", usuario.getContactos().get(0), fecha);
-
-        usuario.enviarCorreo(usuario.getCorreoActual(), paginaWeb);
-
-        // Buzon buzon = usuario2.getBuzon();
-
-        // assertEquals(fecha, buzon.buscarFechaNombreRemitente(fecha, "JuanRiquelme").getFecha());
-
-    }
-
-    @Test
-    public void probandoNuevosFiltros(){
+    public void debeDevolverContenidoAsunto() {
 
         Usuario usuario = new Usuario("JuanRiquelme", "1234", "JuanRiquelme", "JuanPerez@gmail.com");
 
         Correo correo = new Correo("Hola", "SoyFan De coscu", null, null, null);
         Correo correo2 = new Correo("Holaa", "SoyFan De momo", null, null, null);
         Correo correo3 = new Correo("Holaaa", "SoyFan De figueredo", null, null, null);
-        
+
         usuario.getBuzon().agregarCorreo(correo);
         usuario.getBuzon().agregarCorreo(correo2);
         usuario.getBuzon().agregarCorreo(correo3);
@@ -227,12 +179,80 @@ public class AppTest {
         Predicate<Correo> filtro1 = usuario.getBuzon().crearFiltroContenido("Hola");
         Predicate<Correo> filtro2 = usuario.getBuzon().crearFiltroAsunto("SoyFan De coscu");
 
-        
         Predicate<Correo> filtro3 = usuario.getBuzon().combinarFiltros(filtro1, filtro2);
 
+        // System.out.println(usuario.getBuzon().buscar(filtro1, filtro2).getAsunto());
+        // System.out.println(usuario.getBuzon().buscar(filtro3).getContenido());
+        assertEquals("Hola", usuario.getBuzon().buscar(filtro1, filtro2).getContenido());
+        assertEquals("SoyFan De coscu", usuario.getBuzon().buscar(filtro3).getAsunto());
+    }
 
-        System.out.println(usuario.getBuzon().buscar(filtro1, filtro2).getAsunto());
-        System.out.println(usuario.getBuzon().buscar(filtro3).getContenido());
-        // assertEquals(, usuario.getBuzon().buscar(filtro1,filtro2));
+    @Test
+    public void debeDevolverFechaRemitente() {
+        LocalDate fecha = LocalDate.now();
+        Registro paginaWeb = new Registro();
+        Usuario usuario = new Usuario("JuanRiquelme", "1234", "JuanRiquelme", "JuanPerez@gmail.com");
+        Usuario usuario2 = new Usuario("Roberto", "1234", "Roberto Perez", "RobertoPerez@gmail.com");
+
+        paginaWeb.registrarUsuario(usuario);
+
+        paginaWeb.registrarUsuario(usuario2);
+
+        usuario.crearContacto(usuario2.getNombre(), usuario2.getEmail());
+
+        usuario.crearCorreo("Buenardo", "Soy fan de coscu", usuario.getContactos().get(0), fecha);
+
+        usuario.enviarCorreo(usuario.getCorreoActual(), paginaWeb);
+
+        Predicate<Correo> filtro1 = usuario2.getBuzon().crearFiltroFecha(fecha);
+
+        Predicate<Correo> filtro2 = usuario2.getBuzon().crearFiltroRemitente("JuanRiquelme");
+
+        Predicate<Correo> filtro3 = usuario2.getBuzon().combinarFiltros(filtro1, filtro2);
+
+        // System.out.println(usuario.getBuzon().buscar(filtro1, filtro2).getFecha());
+
+        // System.out.println(usuario.getBuzon().buscar(filtro3).getRemitente().getNombre());
+
+        System.out.println(fecha);
+
+        assertEquals("JuanRiquelme", usuario2.getBuzon().buscar(filtro1, filtro2).getRemitente().getNombre());
+    }
+
+    @Test
+
+    public void debeDevolverFechaContenido() {
+
+        LocalDate fecha = LocalDate.now();
+
+        Registro paginaWeb = new Registro();
+
+        Usuario usuario = new Usuario("JuanRiquelme", "1234", "JuanRiquelme", "JuanPerez@gmail.com");
+
+        Usuario usuario2 = new Usuario("Roberto", "1234", "Roberto Perez", "RobertoPerez@gmail.com");
+
+        paginaWeb.registrarUsuario(usuario);
+
+        paginaWeb.registrarUsuario(usuario2);
+
+        usuario.crearContacto(usuario2.getNombre(), usuario2.getEmail());
+
+        usuario.crearCorreo("Buenardo", "Soy fan de coscu", usuario.getContactos().get(0), fecha);
+
+        usuario.enviarCorreo(usuario.getCorreoActual(), paginaWeb);
+
+        Predicate<Correo> filtro1 = usuario2.getBuzon().crearFiltroFecha(fecha);
+
+        Predicate<Correo> filtro2 = usuario2.getBuzon().crearFiltroContenido("Buenardo");
+
+        Predicate<Correo> filtro3 = usuario2.getBuzon().combinarFiltros(filtro1, filtro2);
+
+        // System.out.println(usuario.getBuzon().buscar(filtro1, filtro2).getFecha());
+
+        // System.out.println(usuario.getBuzon().buscar(filtro3).getContenido());
+
+        assertEquals("Buenardo", usuario2.getBuzon().buscar(filtro1, filtro2).getContenido());
+
+
     }
 }
